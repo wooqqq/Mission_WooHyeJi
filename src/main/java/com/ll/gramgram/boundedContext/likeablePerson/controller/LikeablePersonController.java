@@ -9,12 +9,15 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -58,5 +61,19 @@ public class LikeablePersonController {
         }
 
         return "usr/likeablePerson/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, Principal principal) {
+        RsData<LikeablePerson> rsData = likeablePersonService.delete(id, principal.getName());
+
+        // 호감상대 삭제 실패 시 돌아가기
+        if (rsData.isFail()) {
+            return rq.historyBack(rsData);
+        }
+
+        // 호감상대 삭제 후 "/likeablePerson/list" 로 돌아가기
+        return rq.redirectWithMsg("/likeablePerson/list", rsData);
     }
 }
