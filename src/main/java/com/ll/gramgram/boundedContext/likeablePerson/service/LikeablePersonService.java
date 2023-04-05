@@ -6,11 +6,13 @@ import com.ll.gramgram.boundedContext.instaMember.service.InstaMemberService;
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.repository.LikeablePersonRepository;
 import com.ll.gramgram.boundedContext.member.entity.Member;
+import com.ll.gramgram.boundedContext.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +20,7 @@ import java.util.List;
 public class LikeablePersonService {
     private final LikeablePersonRepository likeablePersonRepository;
     private final InstaMemberService instaMemberService;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
@@ -47,5 +50,31 @@ public class LikeablePersonService {
 
     public List<LikeablePerson> findByFromInstaMemberId(Long fromInstaMemberId) {
         return likeablePersonRepository.findByFromInstaMemberId(fromInstaMemberId);
+    }
+
+    // repository 에서 id 가져오기
+    public Optional<LikeablePerson> findById(Long id) {
+        return likeablePersonRepository.findById(id);
+    }
+
+    public RsData<LikeablePerson> delete(Long id, String username) {
+        Optional<LikeablePerson> likeablePerson = likeablePersonRepository.findById(id);
+
+        if (!likeablePerson.isPresent()) {
+            return RsData.of("F-1", "존재하지 않는 항목입니다.");
+        }
+
+        // likeablePerson 의 fromInstaMember 가져오기
+        InstaMember instaMember = likeablePerson.get().getFromInstaMember();
+        // fromInstaMember 를 memberRepository 에서 찾아오기
+        Member member = memberRepository.findByInstaMember(instaMember);
+
+        // member의 username과 delete에서 입력된 username이 일치하는지 확인
+        if (!member.getUsername().equals(username)) {
+            return RsData.of("F-2", "삭제 권한이 없습니다.");
+        }
+
+        likeablePersonRepository.delete(likeablePerson.get());
+        return RsData.of("S-1", "호감 상대가 삭제되었습니다.");
     }
 }
