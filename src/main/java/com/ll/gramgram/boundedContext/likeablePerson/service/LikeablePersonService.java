@@ -57,6 +57,7 @@ public class LikeablePersonService {
         return likeablePersonRepository.findById(id);
     }
 
+    @Transactional
     public RsData<LikeablePerson> delete(Long id, String username) {
         Optional<LikeablePerson> likeablePerson = likeablePersonRepository.findById(id);
 
