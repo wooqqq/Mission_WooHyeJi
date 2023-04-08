@@ -73,11 +73,11 @@ public class LikeablePersonController {
 
         if (canActorDeleteRsData.isFail()) return rq.historyBack(canActorDeleteRsData);
 
-        RsData deleteRs = likeablePersonService.delete(likeablePerson);
+        RsData deleteRsData = likeablePersonService.delete(likeablePerson);
 
-        if (deleteRs.isFail()) return rq.historyBack(deleteRs);
+        if (deleteRsData.isFail()) return rq.historyBack(deleteRsData);
 
         // 호감상대 삭제 후 "/likeablePerson/list" 로 돌아가기
-        return rq.redirectWithMsg("/likeablePerson/list", deleteRs);
+        return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
     }
 }
