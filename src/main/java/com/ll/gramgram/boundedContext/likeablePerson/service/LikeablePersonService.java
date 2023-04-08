@@ -58,24 +58,10 @@ public class LikeablePersonService {
     }
 
     @Transactional
-    public RsData<LikeablePerson> delete(Long id, String username) {
-        Optional<LikeablePerson> likeablePerson = likeablePersonRepository.findById(id);
+    public RsData delete(LikeablePerson likeablePerson) {
+        String toInstaMemberUsername = likeablePerson.getToInstaMember().getUsername();
+        likeablePersonRepository.delete(likeablePerson);
 
-        if (!likeablePerson.isPresent()) {
-            return RsData.of("F-1", "존재하지 않는 항목입니다.");
-        }
-
-        // likeablePerson 의 fromInstaMember 가져오기
-        InstaMember instaMember = likeablePerson.get().getFromInstaMember();
-        // fromInstaMember 를 memberRepository 에서 찾아오기
-        Member member = memberRepository.findByInstaMember(instaMember);
-
-        // member의 username과 delete에서 입력된 username이 일치하는지 확인
-        if (!member.getUsername().equals(username)) {
-            return RsData.of("F-2", "삭제 권한이 없습니다.");
-        }
-
-        likeablePersonRepository.delete(likeablePerson.get());
-        return RsData.of("S-1", "호감 상대가 삭제되었습니다.");
+        return RsData.of("S-1", "%s님에 대한 호감을 취소하였습니다.".formatted(toInstaMemberUsername));
     }
 }
