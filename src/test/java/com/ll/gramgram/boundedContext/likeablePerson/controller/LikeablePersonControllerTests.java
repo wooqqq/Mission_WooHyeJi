@@ -178,34 +178,42 @@ public class LikeablePersonControllerTests {
     }
 
     @Test
-    @DisplayName("호감삭제(존재하지 않는 항목)")
+    @DisplayName("호감삭제(존재하지 않는 항목, 삭제 X)")
     @WithUserDetails("user3")
     void t007() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(get("/likeablePerson/delete/{id}", 100))
+                .perform(
+                        delete("/likeablePerson/100")
+                                .with(csrf())
+                )
                 .andDo(print());
 
         // THEN
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
                 .andExpect(handler().methodName("delete"))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    @DisplayName("호감삭제(권한 없음)")
-    @WithUserDetails("user1")
+    @DisplayName("호감삭제(권한 없음, 삭제 X)")
+    @WithUserDetails("user2")
     void t008() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(get("/likeablePerson/delete/{id}", 1))
+                .perform(
+                        delete("/likeablePerson/1")
+                                .with(csrf())
+                )
                 .andDo(print());
 
         // THEN
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
                 .andExpect(handler().methodName("delete"))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is4xxClientError());
+
+        assertThat(likeablePersonService.findById(1L).isPresent()).isEqualTo(true);
     }
 }
