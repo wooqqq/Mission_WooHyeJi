@@ -52,3 +52,6 @@
         -> 카카오 로그인과 마찬가지로 clientId와 비밀번호는 application-secret.yml에서 관리
     - 협업 시 application-secret.yml은 git에 노출되지 않음
         -> 폼 제공을 위해 applicaion-secret.yml.default 문서 추가
+3. **기타**
+    - 영어로 commit message를 작성하다보니 미숙하여 자세하게 적지 못함
+        -> 일부분 한글 작성으로 변경하기로 함
