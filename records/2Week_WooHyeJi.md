@@ -17,8 +17,8 @@
           user1이 user2에게 다시 호감 표시 (사유 : 성격)
           이 경우에는 새 호감상대로 등록되지 않고, 기존 호감표시에서 사유만 수정된다.
 - [ ] [선택] 네이버 로그인
-    - [ ] 네이버 로그인으로 가입 및 로그인 처리가 가능하여야 한다. (스프링 OAuth2 클라이언트)
-    - [ ] 네이버 로그인으로 가입한 회원의 providerTypeCode : NAVER
+    - [x] 네이버 로그인으로 가입 및 로그인 처리가 가능하여야 한다. (스프링 OAuth2 클라이언트)
+    - [x] 네이버 로그인으로 가입한 회원의 providerTypeCode : NAVER
     - [ ] SQL 내 member 테이블의 username에 개인의 이름과 성별 등의 개인정보는 포함하지 않아야 한다.
 - [ ] [UI] 디자인 변경
 
@@ -43,10 +43,19 @@
         - 다르다면 기존의 값이 아니라 새로 입력받은 `attractiveTypeCode` 값을 save 시킴
         - 만일 `attractiveTypeCode`가 같다면 이미 호감표시를 했던 동일한 likeablePerson이 존재하므로 실패 처리
 
+2. **네이버 로그인**
+    1) 네이버 개발자 센터(https://developers.naver.com/main/)에서 내 애플리케이션 등록
+    2) application.yml에 네이버 registration 및 provider 작성
+    3) application-secret.yml에 네이버 clientId 및 client-secret 작성
+    4) application-secret.yml.default에 네이버 클라이언트 폼 작성
+
+
     
 
 **[특이사항]**
 1. 구현하지 못한 부분
+    - 네이버 로그인 기능을 구현하였으나 SQL의 `member` 테이블의 `username`에 개인의 이름, 성별 등의 개인정보가 포함되지 않아야한다는 조건을 구현하지 못했음
+    - 아직 네이버 로그인 기능이 완벽하게 해결되지 않았다고 생각하여 NotProd.java에 네이버 로그인 정보에 관한 부분은 추가하지 않음
 2. 기능 구현은 마쳤으나 이해되지 않는 부분
     - 호감표시 인원수 제한에서 왜 `>= 11`이 아니라 `>= 10`으로 해야 10명까지만 등록이 가능한지?
 
