@@ -14,9 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
+
 
 @Controller
 @RequestMapping("/likeablePerson")
@@ -41,6 +40,14 @@ public class LikeablePersonController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String add(@Valid AddForm addForm) {
+        // 호감표시 가능 여부 확인
+        RsData canLikeableRsData = likeablePersonService.canLike(rq.getMember(), addForm.getUsername());
+
+        if (canLikeableRsData.isFail()) {
+            return rq.historyBack(canLikeableRsData);
+        }
+
+        // 호감표시 기능
         RsData<LikeablePerson> createRsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
 
         if (createRsData.isFail()) {

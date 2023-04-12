@@ -20,18 +20,9 @@ import java.util.Optional;
 public class LikeablePersonService {
     private final LikeablePersonRepository likeablePersonRepository;
     private final InstaMemberService instaMemberService;
-    private final MemberRepository memberRepository;
 
     @Transactional
     public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
-        if ( member.hasConnectedInstaMember() == false ) {
-            return RsData.of("F-2", "먼저 본인의 인스타그램 아이디를 입력해야 합니다.");
-        }
-
-        if (member.getInstaMember().getUsername().equals(username)) {
-            return RsData.of("F-1", "본인을 호감상대로 등록할 수 없습니다.");
-        }
-
         InstaMember fromInstaMember = member.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
@@ -52,7 +43,7 @@ public class LikeablePersonService {
         // 너를 좋아하는 호감표시 생겼어.
         toInstaMember.addToLikeablePerson(likeablePerson);
 
-        return RsData.of("S-1", "입력하신 인스타유저(%s)를 호감상대로 등록되었습니다.".formatted(username), likeablePerson);
+        return RsData.of("S-1", "입력하신 인스타유저(%s)를 호감상대로 등록하였습니다.".formatted(username), likeablePerson);
     }
 
     public List<LikeablePerson> findByFromInstaMemberId(Long fromInstaMemberId) {
@@ -85,4 +76,17 @@ public class LikeablePersonService {
 
         return RsData.of("S-1", "삭제 가능합니다.");
     }
+
+    // 호감표시 가능한지 체크
+    public RsData canLike(Member member, String username) {
+        if ( member.hasConnectedInstaMember() == false ) {
+            return RsData.of("F-2", "먼저 본인의 인스타그램 아이디를 입력해야 합니다.");
+        }
+
+        if (member.getInstaMember().getUsername().equals(username)) {
+            return RsData.of("F-1", "본인을 호감상대로 등록할 수 없습니다.");
+        }
+        return RsData.of("S-1", "호감상대로 등록할 수 있습니다.");
+    }
+
 }
