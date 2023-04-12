@@ -26,6 +26,12 @@ public class LikeablePersonService {
         InstaMember fromInstaMember = member.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
+        // 이미 호감 표시된 사용자일 경우 실패
+        if (fromInstaMember.getFromLikeablePeople().stream().anyMatch(likeablePerson ->
+                likeablePerson.getToInstaMember().equals(toInstaMember))) {
+            return RsData.of("F-5", "이미 호감을 표시한 사용자입니다.");
+        }
+
         // 호감 상대 수 11명 이상이면 실패
         // 그런데 왜 10 이상일때로 해야 10명까지만 되지?
         if (fromInstaMember.getFromLikeablePeople().size() >= 10) {

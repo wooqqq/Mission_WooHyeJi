@@ -10,7 +10,7 @@
         - ex) user1이 user2에게 호감 표시 (사유 : 외모)
           user1이 user2에게 다시 호감 표시 (사유 : 외모)
           이 경우 처리되면 안된다. (`rq.historyBack`)
-    - [ ] 한명의 인스타 회원이 11명 이상의 호감상대를 등록할 수 없습니다.
+    - [x] 한명의 인스타 회원이 11명 이상의 호감상대를 등록할 수 없습니다.
         - 만일 11명 이상의 호감표시를 했을 시 처리되면 안된다. (`rq.historyBack`)
     - [ ] 중복 호감표시가 발생했을 때 기존의 사유와 다른 사유로 호감을 표시하는 경우에는 성공으로 처리한다.
         - ex) user1이 user2에게 호감 표시 (사유 : 외모)
@@ -31,6 +31,7 @@
 1. **예외처리 케이스 3가지 추가**
     1) 호감표시 중복 불가능
         - LikeablePersonService.java 의 `like` 메소드에서 처리했던 호감표시 가능 여부 확인 기능을 `canLike` 메소드로 따로 분리시켜줌
+        - LikeablePersonService.java 의 `like` 메소드에서 `stream().anyMatch()`를 통해 확인 후 이미 호감표시된 사용자일 경우 실패 처리
     2) 한명의 인스타 회원이 11명 이상의 호감표시 등록 불가능
         - LikeablePersonService.java 의 `like` 메소드 안에서 `fromInstaMember.getFromLikeablePeople().size()`로 확인
         - 예상은 `fromInstaMember.getFromLikeablePeople().size()`가 11 이상일 때 실패가 떠야하는데, `>= 11`로 조건을 설정하면 11개도 등록이 가능함
