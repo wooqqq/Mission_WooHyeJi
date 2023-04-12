@@ -28,12 +28,21 @@
 ---
 
 **[접근 방법]**
+1. **예외처리 케이스 3가지 추가**
+    1) 호감표시 중복 불가능
+        - LikeablePersonService.java 의 `like` 메소드에서 처리했던 호감표시 가능 여부 확인 기능을 `canLike` 메소드로 따로 분리시켜줌
+    2) 한명의 인스타 회원이 11명 이상의 호감표시 등록 불가능
+        - LikeablePersonService.java 의 `like` 메소드 안에서 `fromInstaMember.getFromLikeablePeople().size()`로 확인
+        - 예상은 `fromInstaMember.getFromLikeablePeople().size()`가 11 이상일 때 실패가 떠야하는데, `>= 11`로 조건을 설정하면 11개도 등록이 가능함
+        - 임시방편으로 `>= 10`으로 설정해놓았으나, 아직 풀리지 않음
+    3) 호감표시 중복 발생 시 다른 attractiveTypeCode 가질 시 성공 처리 -> 수정
 
-
-
+    
 
 
 **[특이사항]**
-
+1. 구현하지 못한 부분
+2. 기능 구현은 마쳤으나 이해되지 않는 부분
+    - 호감표시 인원수 제한에서 왜 `>= 11`이 아니라 `>= 10`으로 해야 10명까지만 등록이 가능한지?
 
 **참고: [Refactoring]**

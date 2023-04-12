@@ -26,6 +26,12 @@ public class LikeablePersonService {
         InstaMember fromInstaMember = member.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
+        // 호감 상대 수 11명 이상이면 실패
+        // 그런데 왜 10 이상일때로 해야 10명까지만 되지?
+        if (fromInstaMember.getFromLikeablePeople().size() >= 10) {
+            return RsData.of("F-4", "더이상 호감 상대를 등록할 수 없습니다.");
+        }
+
         LikeablePerson likeablePerson = LikeablePerson
                 .builder()
                 .fromInstaMember(fromInstaMember) // 호감을 표시하는 사람의 인스타 멤버
