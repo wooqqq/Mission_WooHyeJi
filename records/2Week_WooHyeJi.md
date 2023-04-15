@@ -42,8 +42,6 @@
         - 위와 같은 상황을 조건으로 둔 후 true 라면 `attractiveTypeCode`가 다른지 확인
         - 다르다면 기존의 값이 아니라 새로 입력받은 `attractiveTypeCode` 값을 save 시킴
         - 만일 `attractiveTypeCode`가 같다면 이미 호감표시를 했던 동일한 likeablePerson이 존재하므로 실패 처리
-    4) 예외처리 기능에 관한 테스트케이스 추가
-        - LikeablePersonServiceTests.java에 t1, t2 추가
 
 2. **네이버 로그인**
     1) 네이버 개발자 센터(https://developers.naver.com/main/)에서 내 애플리케이션 등록
@@ -64,4 +62,8 @@
 2. 기능 구현은 마쳤으나 이해되지 않는 부분
     - 호감표시 인원수 제한에서 왜 `>= 11`이 아니라 `>= 10`으로 해야 10명까지만 등록이 가능한지?
 
-**참고: [Refactoring]**
+**[Refactoring]**
+1. 호감표시 중복 관련 테스트케이스 추가
+    - LikeablePersonServiceTests.java 새로 생성하여 service 관련 테스트케이스 다룸(t1, t2)
+2. 인스타회원 호감표시 최대 인원수를 10명으로 제한
+    - application.yml에 호감표시 max 값을 지정하고 AppConfig를 통해 제한하기 위해 AppConfig.java 생성
