@@ -43,11 +43,6 @@ public class LikeablePersonService {
             else return RsData.of("F-5", "이미 호감을 표시한 사용자입니다.");
         }
 
-        // 호감 상대 수 11명 이상이면 실패
-        // 그런데 왜 10 이상일때로 해야 10명까지만 되지?
-        if (fromInstaMember.getFromLikeablePeople().size() >= 10) {
-            return RsData.of("F-4", "더이상 호감 상대를 등록할 수 없습니다.");
-        }
 
         LikeablePerson likeablePerson = LikeablePerson
                 .builder()
