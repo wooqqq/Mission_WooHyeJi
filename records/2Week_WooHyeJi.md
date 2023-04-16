@@ -69,3 +69,6 @@
     - application.yml에 호감표시 max 값을 지정하고 AppConfig를 통해 제한하기 위해 AppConfig.java 생성
     - LikeablePersonService.java의 canLike 메소드에 호감표시 가능여부 확인 기능 추가 및 수정
       - AppConfig를 사용하여 `likeablePersonFromMax` 값을 통해 호감표시 최대 인원수 제한
+    - LikeablePersonControllerTests.java 에 테스트케이스 추가
+3. 호감표시 중복이지만 attractiveTypeCode가 다른 경우 수정 기능
+    - LikeablePersonService.java 에서 modifyAttractive 메소드 추가

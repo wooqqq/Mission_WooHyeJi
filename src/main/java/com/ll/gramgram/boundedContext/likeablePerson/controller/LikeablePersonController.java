@@ -47,14 +47,19 @@ public class LikeablePersonController {
             return rq.historyBack(canLikeableRsData);
         }
 
-        // 호감표시 기능
-        RsData<LikeablePerson> createRsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
+        RsData rsData;
 
-        if (createRsData.isFail()) {
-            return rq.historyBack(createRsData);
+        if (canLikeableRsData.getResultCode().equals("S-2")) {
+            rsData = likeablePersonService.modifyAttractive(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
+        } else {
+            rsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
         }
 
-        return rq.redirectWithMsg("/likeablePerson/list", createRsData);
+        if (rsData.isFail()) {
+            return rq.historyBack(rsData);
+        }
+
+        return rq.redirectWithMsg("/likeablePerson/list", rsData);
     }
 
     @PreAuthorize("isAuthenticated()")
