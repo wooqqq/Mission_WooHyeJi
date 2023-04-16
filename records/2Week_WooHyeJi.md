@@ -67,3 +67,5 @@
     - LikeablePersonServiceTests.java 새로 생성하여 service 관련 테스트케이스 다룸(t1, t2)
 2. 인스타회원 호감표시 최대 인원수를 10명으로 제한
     - application.yml에 호감표시 max 값을 지정하고 AppConfig를 통해 제한하기 위해 AppConfig.java 생성
+    - LikeablePersonService.java의 canLike 메소드에 호감표시 가능여부 확인 기능 추가 및 수정
+      - AppConfig를 사용하여 `likeablePersonFromMax` 값을 통해 호감표시 최대 인원수 제한

@@ -1,5 +1,6 @@
 package com.ll.gramgram.boundedContext.likeablePerson.service;
 
+import com.ll.gramgram.base.appConfig.AppConfig;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.boundedContext.instaMember.service.InstaMemberService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.annotation.Retention;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,26 +25,9 @@ public class LikeablePersonService {
 
     @Transactional
     public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
+
         InstaMember fromInstaMember = member.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
-
-        // 호감 표시한 사용자인지 확인
-        LikeablePerson existingLikeablePerson = fromInstaMember.getFromLikeablePeople().stream()
-                .filter(likeablePerson -> likeablePerson.getToInstaMember().equals(toInstaMember))
-                .findFirst()
-                .orElse(null);
-
-        // 호감 표시한 사용자의 attractiveTypeCode가 다르게 입력되었을 때 수정
-        // 호감 표시한 사용자의 attractiveTypeCode도 같으면 실패
-        if (existingLikeablePerson != null) {
-            if (existingLikeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
-                existingLikeablePerson.setAttractiveTypeCode(attractiveTypeCode);
-                likeablePersonRepository.save(existingLikeablePerson);
-                return RsData.of("S-5", "입력하신 인스타유저(%s)의 호감 사유가 변경되었습니다.".formatted(username), existingLikeablePerson);
-            }
-            else return RsData.of("F-5", "이미 호감을 표시한 사용자입니다.");
-        }
-
 
         LikeablePerson likeablePerson = LikeablePerson
                 .builder()
@@ -81,7 +66,7 @@ public class LikeablePersonService {
         return RsData.of("S-1", "%s님에 대한 호감을 취소하였습니다.".formatted(likeCanceledUsername));
     }
 
-    public RsData canActorDelete(Member actor, LikeablePerson likeablePerson) {
+    public RsData canDelete(Member actor, LikeablePerson likeablePerson) {
         if (likeablePerson == null) return RsData.of("F-1", "이미 삭제되었습니다.");
 
         // 수행자의 인스타계정 번호
@@ -96,15 +81,41 @@ public class LikeablePersonService {
     }
 
     // 호감표시 가능한지 체크
-    public RsData canLike(Member member, String username) {
-        if ( member.hasConnectedInstaMember() == false ) {
-            return RsData.of("F-2", "먼저 본인의 인스타그램 아이디를 입력해야 합니다.");
+    public RsData canLike(Member member, String username, int attractiveTypeCode) {
+        if ( !member.hasConnectedInstaMember() ) {
+            return RsData.of("F-1", "먼저 본인의 인스타그램 아이디를 입력해야 합니다.");
         }
 
-        if (member.getInstaMember().getUsername().equals(username)) {
-            return RsData.of("F-1", "본인을 호감상대로 등록할 수 없습니다.");
+        InstaMember fromInstaMember = member.getInstaMember();
+
+        if (fromInstaMember.getUsername().equals(username)) {
+            return RsData.of("F-2", "본인을 호감상대로 등록할 수 없습니다.");
         }
-        return RsData.of("S-1", "호감상대로 등록할 수 있습니다.");
+
+        // member가 생성한 `좋아요` 가져오기
+        List<LikeablePerson> fromLikeablePeople = fromInstaMember.getFromLikeablePeople();
+
+        LikeablePerson fromLikeablePerson = fromLikeablePeople
+                .stream()
+                .filter(e -> e.getToInstaMember().getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+
+        if (fromLikeablePerson != null && fromLikeablePerson.getAttractiveTypeCode() == attractiveTypeCode) {
+            return RsData.of("F-3", "이미 %s님에 대해서 호감표시를 했습니다.".formatted(username));
+        }
+
+        long likeablePersonFromMax = AppConfig.getLikeablePersonFromMax();
+
+        if (fromLikeablePeople.size() >= likeablePersonFromMax) {
+            return RsData.of("F-4", "최대 %d명에 대해서만 호감표시가 가능합니다.".formatted(likeablePersonFromMax));
+        }
+
+        if (fromLikeablePerson != null) {
+            return RsData.of("S-2", "%s님에 대해서 호감표시가 가능합니다.".formatted(username));
+        }
+
+        return RsData.of("S-1", "%s님에 대해서 호감표시가 가능합니다.".formatted(username));
     }
 
 }

@@ -41,7 +41,7 @@ public class LikeablePersonController {
     @PostMapping("/add")
     public String add(@Valid AddForm addForm) {
         // 호감표시 가능 여부 확인
-        RsData canLikeableRsData = likeablePersonService.canLike(rq.getMember(), addForm.getUsername());
+        RsData canLikeableRsData = likeablePersonService.canLike(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
 
         if (canLikeableRsData.isFail()) {
             return rq.historyBack(canLikeableRsData);
@@ -76,7 +76,7 @@ public class LikeablePersonController {
     public String delete(@PathVariable("id") Long id) {
         LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
 
-        RsData canActorDeleteRsData = likeablePersonService.canActorDelete(rq.getMember(), likeablePerson);
+        RsData canActorDeleteRsData = likeablePersonService.canDelete(rq.getMember(), likeablePerson);
 
         if (canActorDeleteRsData.isFail()) return rq.historyBack(canActorDeleteRsData);
 
