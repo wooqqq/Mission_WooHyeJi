@@ -40,20 +40,7 @@ public class LikeablePersonController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String add(@Valid AddForm addForm) {
-        // 호감표시 가능 여부 확인
-        RsData canLikeableRsData = likeablePersonService.canLike(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
-
-        if (canLikeableRsData.isFail()) {
-            return rq.historyBack(canLikeableRsData);
-        }
-
-        RsData rsData;
-
-        if (canLikeableRsData.getResultCode().equals("S-2")) {
-            rsData = likeablePersonService.modifyAttractive(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
-        } else {
-            rsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
-        }
+        RsData<LikeablePerson> rsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
 
         if (rsData.isFail()) {
             return rq.historyBack(rsData);
