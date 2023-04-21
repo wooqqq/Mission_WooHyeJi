@@ -36,5 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### Custon ###
+### Custom ###
 application-secret.yml
+
+src/main/generated
