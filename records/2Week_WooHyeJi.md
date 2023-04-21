@@ -72,3 +72,8 @@
     - LikeablePersonControllerTests.java 에 테스트케이스 추가
 3. 호감표시 중복이지만 attractiveTypeCode가 다른 경우 수정 기능
     - LikeablePersonService.java 에서 modifyAttractive 메소드 추가
+    - LikeablePersonControllerTests.java 에 호감사유 수정 테스트케이스 추가
+4. BaseEntity 를 생성하여 여러 entity에 중복으로 들어가는 `id`, `createDate`, `modifyDate` 를 정리
+5. controller에서 다루던 기능 service에서 구현
+5. 네이버 로그인 시 `username` 에 개인정보가 들어가는 것 수정
+    - `id` 만 가져와서 `NAVER__id` 로 표기됨
