@@ -160,7 +160,7 @@ public class LikeablePersonControllerTests {
     }
 
     @Test
-    @DisplayName("호감삭제")
+    @DisplayName("호감취소")
     @WithUserDetails("user3")
     void t006() throws Exception {
         // WHEN
@@ -174,7 +174,7 @@ public class LikeablePersonControllerTests {
         // THEN
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
-                .andExpect(handler().methodName("delete"))
+                .andExpect(handler().methodName("cancel"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("/likeablePerson/list**"))
         ;
@@ -183,7 +183,7 @@ public class LikeablePersonControllerTests {
     }
 
     @Test
-    @DisplayName("호감삭제(존재하지 않는 항목, 삭제 X)")
+    @DisplayName("호감취소(존재하지 않는 항목, 취소 X)")
     @WithUserDetails("user3")
     void t007() throws Exception {
         // WHEN
@@ -197,12 +197,12 @@ public class LikeablePersonControllerTests {
         // THEN
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
-                .andExpect(handler().methodName("delete"))
+                .andExpect(handler().methodName("cancel"))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    @DisplayName("호감삭제(권한 없음, 삭제 X)")
+    @DisplayName("호감취소(권한 없음, 취소 X)")
     @WithUserDetails("user2")
     void t008() throws Exception {
         // WHEN
@@ -216,7 +216,7 @@ public class LikeablePersonControllerTests {
         // THEN
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
-                .andExpect(handler().methodName("delete"))
+                .andExpect(handler().methodName("cancel"))
                 .andExpect(status().is4xxClientError());
 
         assertThat(likeablePersonService.findById(1L).isPresent()).isEqualTo(true);
@@ -308,8 +308,8 @@ public class LikeablePersonControllerTests {
     void t013() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(post("/likeablePerson/add")
-                        .with(csrf())
+                .perform(post("/likeablePerson/like")
+                        .with(csrf()) // CSRF 키 생성
                         .param("username", "insta_user4")
                         .param("attractiveTypeCode", "2")
                 )
@@ -320,6 +320,7 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().handlerType(LikeablePersonController.class))
                 .andExpect(handler().methodName("like"))
                 .andExpect(status().is3xxRedirection());
+        ;
 
         Optional<LikeablePerson> opLikeablePerson = likeablePersonService.findByFromInstaMember_usernameAndToInstaMember_username("insta_user3", "insta_user4");
 
