@@ -29,15 +29,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        String oauthId = oAuth2User.getName();
-
         String providerTypeCode = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
 
-        // 네이버 로그인 시 id만 받아옴
-        if(providerTypeCode.equals("NAVER")) {
-            Map<String, Object> attributesResponse = (Map<String, Object>) oAuth2User.getAttributes().get("response");
-            oauthId = attributesResponse.get("id").toString();
-        }
+        String oauthId = switch (providerTypeCode) {
+            case "NAVER" -> ((Map<String, String>) oAuth2User.getAttributes().get("response")).get("id");
+            default -> oAuth2User.getName();
+        };
 
         String username = providerTypeCode + "__%s".formatted(oauthId);
 
