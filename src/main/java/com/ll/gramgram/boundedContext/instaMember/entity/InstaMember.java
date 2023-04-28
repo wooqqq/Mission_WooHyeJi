@@ -11,7 +11,6 @@ import org.hibernate.annotations.LazyCollectionOption;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Getter
 @NoArgsConstructor
@@ -31,30 +30,23 @@ public class InstaMember extends BaseEntity {
     private long likesCountByGenderManAndAttractiveTypeCode3;
 
     public Long getLikesCountByGenderWoman() {
-        return likesCountByGenderWomanAndAttractiveTypeCode1
-                + likesCountByGenderWomanAndAttractiveTypeCode2
-                + likesCountByGenderWomanAndAttractiveTypeCode3;
+        return likesCountByGenderWomanAndAttractiveTypeCode1 + likesCountByGenderWomanAndAttractiveTypeCode2 + likesCountByGenderWomanAndAttractiveTypeCode3;
     }
 
     public Long getLikesCountByGenderMan() {
-        return likesCountByGenderManAndAttractiveTypeCode1
-                + likesCountByGenderManAndAttractiveTypeCode2
-                + likesCountByGenderManAndAttractiveTypeCode3;
+        return likesCountByGenderManAndAttractiveTypeCode1 + likesCountByGenderManAndAttractiveTypeCode2 + likesCountByGenderManAndAttractiveTypeCode3;
     }
 
     public Long getLikesCountByAttractionTypeCode1() {
-        return likesCountByGenderWomanAndAttractiveTypeCode1
-                + likesCountByGenderManAndAttractiveTypeCode1;
+        return likesCountByGenderWomanAndAttractiveTypeCode1 + likesCountByGenderManAndAttractiveTypeCode1;
     }
 
     public Long getLikesCountByAttractionTypeCode2() {
-        return likesCountByGenderWomanAndAttractiveTypeCode2
-                + likesCountByGenderManAndAttractiveTypeCode2;
+        return likesCountByGenderWomanAndAttractiveTypeCode2 + likesCountByGenderManAndAttractiveTypeCode2;
     }
 
     public Long getLikesCountByAttractionTypeCode3() {
-        return likesCountByGenderWomanAndAttractiveTypeCode3
-                + likesCountByGenderManAndAttractiveTypeCode3;
+        return likesCountByGenderWomanAndAttractiveTypeCode3 + likesCountByGenderManAndAttractiveTypeCode3;
     }
 
     public Long getLikes() {
@@ -64,13 +56,13 @@ public class InstaMember extends BaseEntity {
     @OneToMany(mappedBy = "fromInstaMember", cascade = {CascadeType.ALL})
     @OrderBy("id desc") // 정렬
     @LazyCollection(LazyCollectionOption.EXTRA)
-    @Builder.Default // @Builder가 있으면 ` = new ArrayList<>();` 가 작동하지 않는다. 그래서 이걸 붙여야 한다.
+    @Builder.Default // @Builder 가 있으면 ` = new ArrayList<>();` 가 작동하지 않는다. 그래서 이걸 붙여야 한다.
     private List<LikeablePerson> fromLikeablePeople = new ArrayList<>();
 
     @OneToMany(mappedBy = "toInstaMember", cascade = {CascadeType.ALL})
     @OrderBy("id desc") // 정렬
     @LazyCollection(LazyCollectionOption.EXTRA)
-    @Builder.Default
+    @Builder.Default // @Builder 가 있으면 ` = new ArrayList<>();` 가 작동하지 않는다. 그래서 이걸 붙여야 한다.
     private List<LikeablePerson> toLikeablePeople = new ArrayList<>();
 
     public void addFromLikeablePerson(LikeablePerson likeablePerson) {
@@ -132,4 +124,3 @@ public class InstaMember extends BaseEntity {
         return true;
     }
 }
-

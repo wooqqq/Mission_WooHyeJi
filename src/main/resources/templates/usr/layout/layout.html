@@ -61,7 +61,8 @@
                         <li th:if="${@rq.login}"><a href="/usr/member/me"><i class="fa-solid fa-user"></i> 내 정보</a></li>
                         <li th:if="${@rq.login}"><a href="/usr/likeablePerson/like"><i
                                 class="fa-solid fa-heart-circle-plus"></i> 호감표시</a></li>
-                        <li th:if="${@rq.login}"><a href="/likeablePerson/list"><i class="fa-solid fa-list-ol"></i> 호감목록</a>
+                        <li th:if="${@rq.login}"><a href="/usr/likeablePerson/list"><i class="fa-solid fa-list-ol"></i>
+                            호감목록</a>
                         </li>
                         <li th:if="${@rq.login}" th:unless="${@rq.member.hasConnectedInstaMember}">
                             <a href="/usr/instaMember/connect">

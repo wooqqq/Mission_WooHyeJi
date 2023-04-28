@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @Controller
 @RequestMapping("/usr/likeablePerson")
 @RequiredArgsConstructor
@@ -62,7 +61,8 @@ public class LikeablePersonController {
 
         // 인스타인증을 했는지 체크
         if (instaMember != null) {
-            List<LikeablePerson> likeablePeople = likeablePersonService.findByFromInstaMemberId(instaMember.getId());
+            // 해당 인스타회원이 좋아하는 사람들 목록
+            List<LikeablePerson> likeablePeople = instaMember.getFromLikeablePeople();
             model.addAttribute("likeablePeople", likeablePeople);
         }
 
@@ -71,7 +71,7 @@ public class LikeablePersonController {
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
-    public String cancel(@PathVariable("id") Long id) {
+    public String cancel(@PathVariable Long id) {
         LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
 
         RsData canDeleteRsData = likeablePersonService.canCancel(rq.getMember(), likeablePerson);
@@ -82,7 +82,6 @@ public class LikeablePersonController {
 
         if (deleteRsData.isFail()) return rq.historyBack(deleteRsData);
 
-        // 호감상대 삭제 후 "/likeablePerson/list" 로 돌아가기
         return rq.redirectWithMsg("/usr/likeablePerson/list", deleteRsData);
     }
 
@@ -114,7 +113,9 @@ public class LikeablePersonController {
     public String modify(@PathVariable Long id, @Valid ModifyForm modifyForm) {
         RsData<LikeablePerson> rsData = likeablePersonService.modifyLike(rq.getMember(), id, modifyForm.getAttractiveTypeCode());
 
-        if (rsData.isFail()) return rq.historyBack(rsData);
+        if (rsData.isFail()) {
+            return rq.historyBack(rsData);
+        }
 
         return rq.redirectWithMsg("/usr/likeablePerson/list", rsData);
     }
