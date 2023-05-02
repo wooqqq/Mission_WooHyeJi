@@ -2,15 +2,19 @@ package com.ll.gramgram.boundedContext.member.entity;
 
 import com.ll.gramgram.base.baseEntity.BaseEntity;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity
 @Getter
@@ -34,11 +38,15 @@ public class Member extends BaseEntity {
         grantedAuthorities.add(new SimpleGrantedAuthority("member"));
 
         // username이 admin인 회원은 추가로 admin 권한도 가진다.
-        if ("admin".equals(username)) {
+        if (isAdmin()) {
             grantedAuthorities.add(new SimpleGrantedAuthority("admin"));
         }
 
         return grantedAuthorities;
+    }
+
+    public boolean isAdmin() {
+        return "admin".equals(username);
     }
 
     // 이 회원이 본인의 인스타ID를 등록했는지 안했는지
