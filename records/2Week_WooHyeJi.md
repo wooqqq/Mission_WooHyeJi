@@ -16,11 +16,11 @@
         - ex) user1이 user2에게 호감 표시 (사유 : 외모)
           user1이 user2에게 다시 호감 표시 (사유 : 성격)
           이 경우에는 새 호감상대로 등록되지 않고, 기존 호감표시에서 사유만 수정된다.
-- [ ] [선택] 네이버 로그인
+- [x] [선택] 네이버 로그인
     - [x] 네이버 로그인으로 가입 및 로그인 처리가 가능하여야 한다. (스프링 OAuth2 클라이언트)
     - [x] 네이버 로그인으로 가입한 회원의 providerTypeCode : NAVER
-    - [ ] SQL 내 member 테이블의 username에 개인의 이름과 성별 등의 개인정보는 포함하지 않아야 한다.
-- [ ] [UI] 디자인 변경
+    - [x] SQL 내 member 테이블의 username에 개인의 이름과 성별 등의 개인정보는 포함하지 않아야 한다.
+- [x] [UI] 디자인 변경
 
 
 ### 2주차 미션 요약
@@ -75,5 +75,8 @@
     - LikeablePersonControllerTests.java 에 호감사유 수정 테스트케이스 추가
 4. BaseEntity 를 생성하여 여러 entity에 중복으로 들어가는 `id`, `createDate`, `modifyDate` 를 정리
 5. controller에서 다루던 기능 service에서 구현
-5. 네이버 로그인 시 `username` 에 개인정보가 들어가는 것 수정
+6. 네이버 로그인 시 `username` 에 개인정보가 들어가는 것 수정
     - `id` 만 가져와서 `NAVER__id` 로 표기됨
+7. 그램그램 ui 수정
+8. 스프링 이벤트 도입하여 LikeablePerson 모듈에 있던 InstaMember 모듈관련 명시적 호출 제거
+    => 결합도 감소
