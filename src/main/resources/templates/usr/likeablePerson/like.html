@@ -58,14 +58,20 @@
                   onSubmit="LikeForm__submit(this); return false;">
                 <div className="form-control">
                     <label className="label">
-                        <span className="label-text">당신의 인스타 아이디</span>
+                        <span className="label-text">
+                            <i className="fa-brands fa-instagram"></i>
+                            당신의 인스타 아이디
+                        </span>
                     </label>
                     <div className="badge badge-primary" th:text="${@rq.member.instaMember.username}"></div>
                 </div>
 
                 <div className="form-control">
                     <label className="label">
-                        <span className="label-text">상대방 인스타 아이디</span>
+                        <span className="label-text">
+                            <i className="fa-brands fa-instagram"></i>
+                            상대방 인스타 아이디
+                        </span>
                     </label>
                     <input type="text" name="username" placeholder="인스타 아이디" className="input input-bordered" autoFocus
                            onChange="$(this).keyup();"
@@ -86,7 +92,10 @@
 
                 <div className="form-control">
                     <label className="label">
-                        <span className="label-text">호감사유</span>
+                        <span className="label-text">
+                            <i className="fa-solid fa-check"></i>
+                            호감사유
+                        </span>
                     </label>
 
                     <!-- 라벨을 클릭하면 라벨의 하위요소인 버튼(체크,라디오,일반 등)이 클릭되는 효과) -->
@@ -125,8 +134,18 @@
             </form>
 
             <div className="text-center mt-4">
-                <a th:if="${@rq.member.hasConnectedInstaMember}" href="list" className="btn btn-link">호감목록</a>
-                <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/member/me" className="btn btn-link">내 정보</a>
+                <a th:if="${@rq.member.hasConnectedInstaMember}" href="list" className="btn btn-link">
+                    <span>
+                        <i className="fa-solid fa-list-ol mr-1"></i>
+                        호감목록&nbsp;
+                    </span>
+                </a>
+                <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/member/me" className="btn btn-link">
+                    <span>
+                        <i className="fa-solid fa-user mr-1"></i>
+                        내 정보&nbsp;
+                    </span>
+                </a>
             </div>
         </div>
     </th:block>
