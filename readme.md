@@ -47,3 +47,8 @@
 - [x] 본인이 좋아하는 사람 등록 폼 처리
     - [x] 아직 우리 서비스에 등록되지 않은 인스타 유저에게도 호감표시 가능
 - [x] 엔티티 클래스의 중복로직 제거
+- [ ] 호감에 대한 수정/삭제 쿨타임
+  - [x] 설정정보 가져오기
+  - [x] 호감표시/호감사유변경 시에 modifyUnlockDate 갱신(현재날짜 + 쿨타임)
+  - [x] UI에서 쿨타임 안차면 수정/삭제 못하도록
+  - [ ] LikeablePersonService::canDelete, LikeablePersonService::canLike 에 쿨타임 체크 추가
