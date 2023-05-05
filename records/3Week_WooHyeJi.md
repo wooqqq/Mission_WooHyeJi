@@ -58,6 +58,16 @@
 - 2WeekFix 에서 스프링 이벤트로 분리하는 과정에서 GramgramApplication.java를 실행시키고 크롬에서 확인했을 때 인텔리제이에서의 실행은 정상적이었으나 크롬에서는 실행이 될 때도 있고 안될 때도 있었음 
 
   => 아직 원인을 찾지 못했음
+- 배포 후 소셜 로그인 기능이 원활하게 작동되지 않아 다른 기능들도 제대로 구현이 되는지 확인이 불가한 상태
+
+  => 카카오 로그인에 의하면 다음과 같이 에러 원인이 뜸
+
+    ![image](https://user-images.githubusercontent.com/118504257/236112785-03fa2865-71e8-4e11-9c9d-018f24d3e094.png)
 
 **[Refactoring]**
-- 선택미션을 진행할 예정 !
+- 배포 후 www.lionlike.site 로 접속하면 소셜 로그인이 안되는 문제를 해결
+  - 원인은 소셜 로그인을 시도했을 때 http://www.lionlike.site Redirect URI로 연결이 됨
+
+    => http 가 아니라 https 로 변경이 되어야 함
+  - `custom.site.baseUrl`을 https 로 설정해줌
+  - https로 설정됨과 동시에 application.yml의 중복도 제거해줌
