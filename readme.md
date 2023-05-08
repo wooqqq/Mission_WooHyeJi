@@ -53,7 +53,8 @@
   - [x] UI에서 쿨타임 안차면 수정/삭제 못하도록
   - [x] UI에서 남은 시간 표시
   - [x] LikeablePersonService::canCancel 에 쿨타임 체크 추가
-  - [ ] LikeablePersonService::canModifyLike 에 쿨타임 체크 추가
+  - [x] LikeablePersonService::canModify 에 쿨타임 체크 추가
+  - [ ] TC : 호감사유를 변경하면 쿨타임이 갱신된다. (실패 -> 해결)
 - [ ] 알림
   - [ ] 호감표시할 때 알림생성
   - [ ] 호감사유변경할 때 알림생성
