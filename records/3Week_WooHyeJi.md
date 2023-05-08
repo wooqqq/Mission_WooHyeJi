@@ -71,3 +71,4 @@
     => http 가 아니라 https 로 변경이 되어야 함
   - `custom.site.baseUrl`을 https 로 설정해줌
   - https로 설정됨과 동시에 application.yml의 중복도 제거해줌
+- 
