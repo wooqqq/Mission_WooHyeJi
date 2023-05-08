@@ -16,7 +16,7 @@ spring:
       client:
         registration:
           naver:
-            scope:
+            scope: name, gender
             client-name: Naver
             authorization-grant-type: authorization_code
             redirect-uri: '${custom.site.baseUrl}/{action}/oauth2/code/{registrationId}'
