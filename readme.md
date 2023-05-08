@@ -51,4 +51,11 @@
   - [x] 설정정보 가져오기
   - [x] 호감표시/호감사유변경 시에 modifyUnlockDate 갱신(현재날짜 + 쿨타임)
   - [x] UI에서 쿨타임 안차면 수정/삭제 못하도록
+  - [x] UI에서 남은 시간 표시
   - [ ] LikeablePersonService::canDelete, LikeablePersonService::canLike 에 쿨타임 체크 추가
+- [ ] 알림
+  - [ ] 호감표시할 때 알림생성
+  - [ ] 호감사유변경할 때 알림생성
+  - [ ] 알림목록
+  - [ ] 알림목록 확인 시 마다, 아직 readDate 가 null 인것들만 추려서 날짜갱신
+  - [ ] 상단바에 아직 읽지 않은 알림이 존재하는지 인디케이터로 표시
