@@ -132,7 +132,9 @@ public class LikeablePersonController {
             // 해당 인스타 회원이 좋아하는 사람들 목록
             Stream<LikeablePerson> likeablePeopleStream = instaMember.getToLikeablePeople().stream();
 
-            List<LikeablePerson> likeablePeople = likeablePersonService.listByGender(instaMember, gender);
+            List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
+
+            List<LikeablePerson> filteringPeopleByGender = likeablePersonService.listByGender(likeablePeople, gender);
 
             model.addAttribute("likeablePeople", likeablePeople);
         }

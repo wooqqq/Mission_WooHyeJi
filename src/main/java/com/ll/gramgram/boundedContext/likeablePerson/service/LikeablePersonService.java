@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -221,13 +222,32 @@ public class LikeablePersonService {
         return RsData.of("S-1", "호감사유변경이 가능합니다.");
     }
 
-    public List<LikeablePerson> listByGender(InstaMember instaMember, String gender) {
-        List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
+    public List<LikeablePerson> listByGender(List<LikeablePerson> likeablePeople, String gender) {
+        List<LikeablePerson> filteringData = new ArrayList<>();
 
-        if (gender != null && !gender.isEmpty()) {
-            return likeablePeople.stream()
-                    .filter(e -> e.getFromInstaMember().getGender().equals(gender))
-                    .collect(Collectors.toList());
-        } else return likeablePeople;
+        switch (gender) {
+            case "U":
+                return likeablePeople;
+            case "M":
+                for (int i = 0; i < likeablePeople.size(); i++) {
+                    InstaMember fromInstaMember = likeablePeople.get(i).getFromInstaMember();
+
+                    if (fromInstaMember.getGender().equals("M")) {
+                        filteringData.add(likeablePeople.get(i));
+                    }
+                }
+                break;
+            case "W":
+                for (int i = 0; i < likeablePeople.size(); i++) {
+                    InstaMember fromInstaMember = likeablePeople.get(i).getFromInstaMember();
+
+                    if (fromInstaMember.getGender().equals("W")) {
+                        filteringData.add(likeablePeople.get(i));
+                    }
+                }
+                break;
+        }
+
+        return filteringData;
     }
 }

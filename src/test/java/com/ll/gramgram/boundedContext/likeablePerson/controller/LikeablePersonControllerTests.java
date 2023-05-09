@@ -24,8 +24,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIndexOutOfBoundsException;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.in;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -430,5 +429,33 @@ public class LikeablePersonControllerTests {
                 .andExpect(status().is4xxClientError());
 
         assertThat(likeablePersonService.findById(3L).get().getAttractiveTypeCode()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("내가 받은 호감(여성)")
+    @WithUserDetails("wooqq__")
+    void t018() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(get("/usr/likeablePerson/toList"))
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("showToList"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string(containsString("""
+                        data-test="toInstaMember_genderDisplayName=여성"
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        data-test="toInstaMember_attractiveTypeDisplayName=성격"
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        data-test="toInstaMember_genderDisplayName=여성"
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        data-test="toInstaMember_attractiveTypeDisplayName=능력"
+                        """.stripIndent().trim())));
     }
 }
