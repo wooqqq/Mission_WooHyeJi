@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -218,5 +219,15 @@ public class LikeablePersonService {
 
 
         return RsData.of("S-1", "호감사유변경이 가능합니다.");
+    }
+
+    public List<LikeablePerson> listByGender(InstaMember instaMember, String gender) {
+        List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
+
+        if (gender != null && !gender.isEmpty()) {
+            return likeablePeople.stream()
+                    .filter(e -> e.getFromInstaMember().getGender().equals(gender))
+                    .collect(Collectors.toList());
+        } else return likeablePeople;
     }
 }
