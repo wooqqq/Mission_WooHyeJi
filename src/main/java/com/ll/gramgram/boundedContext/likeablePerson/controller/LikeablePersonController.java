@@ -130,14 +130,7 @@ public class LikeablePersonController {
         // 인스타 인증을 했는지 체크
         if (instaMember != null) {
             // 해당 인스타 회원이 좋아하는 사람들 목록
-            Stream<LikeablePerson> likeablePeopleStream = instaMember.getToLikeablePeople().stream();
-
-            if (gender != null && !gender.isEmpty()) {
-                likeablePeopleStream = likeablePeopleStream
-                        .filter(e -> e.getFromInstaMember().getGender().equalsIgnoreCase(gender));
-            }
-
-            List<LikeablePerson> likeablePeople = likeablePeopleStream.collect(Collectors.toList());
+            List<LikeablePerson> likeablePeople = likeablePersonService.listByGender(instaMember, gender);
 
             model.addAttribute("likeablePeople", likeablePeople);
         }
