@@ -44,6 +44,10 @@
 1. 배포 - 도메인, HTTPS 까지 적용
   - https://www.lionlike.site 로 접속하면 원하는 기능 모두 적용되어 나타남
 2. 내가 받은 호감리스트에서 성별 필터링 기능 구현
+  - 소셜로그인이 모두 본인 아이디(wooqq__)와 연결되어있어 호감표시를 따로 할 수 없음
+    - NotProd.java에서 wooqq__에게 호감표시를 한 케이스 3가지 추가시킴
+    - SQL에서 likeable_person 테이블 조회 시 추가된 것을 확인함
+  - LikeablePersonController.java 에 작성한 코드가 작동이 되지 않는 것으로 추정
 
 
 **[특이사항]**
