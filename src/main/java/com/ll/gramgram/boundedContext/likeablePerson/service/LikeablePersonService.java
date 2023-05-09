@@ -222,12 +222,18 @@ public class LikeablePersonService {
         return RsData.of("S-1", "호감사유변경이 가능합니다.");
     }
 
-    public List<LikeablePerson> listByGender(InstaMember instaMember, String gender) {
+    public List<LikeablePerson> listByGroup(InstaMember instaMember, String gender, String attractiveTypeCode, int sortCode) {
         List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
 
         if (gender != null && !gender.isEmpty()) {
             likeablePeople = likeablePeople.stream()
                     .filter(e -> e.getFromInstaMember().getGender().equals(gender))
+                    .collect(Collectors.toList());
+        }
+
+        if (attractiveTypeCode != null && attractiveTypeCode.isEmpty()) {
+            likeablePeople = likeablePeople.stream()
+                    .filter(e -> e.getAttractiveTypeCode() == Integer.parseInt(attractiveTypeCode))
                     .collect(Collectors.toList());
         }
 
