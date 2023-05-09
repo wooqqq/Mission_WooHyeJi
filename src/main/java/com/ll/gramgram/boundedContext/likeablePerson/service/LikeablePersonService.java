@@ -223,31 +223,6 @@ public class LikeablePersonService {
     }
 
     public List<LikeablePerson> listByGender(List<LikeablePerson> likeablePeople, String gender) {
-        List<LikeablePerson> filteringData = new ArrayList<>();
-
-        switch (gender) {
-            case "U":
-                return likeablePeople;
-            case "M":
-                for (int i = 0; i < likeablePeople.size(); i++) {
-                    InstaMember fromInstaMember = likeablePeople.get(i).getFromInstaMember();
-
-                    if (fromInstaMember.getGender().equals("M")) {
-                        filteringData.add(likeablePeople.get(i));
-                    }
-                }
-                break;
-            case "W":
-                for (int i = 0; i < likeablePeople.size(); i++) {
-                    InstaMember fromInstaMember = likeablePeople.get(i).getFromInstaMember();
-
-                    if (fromInstaMember.getGender().equals("W")) {
-                        filteringData.add(likeablePeople.get(i));
-                    }
-                }
-                break;
-        }
-
-        return filteringData;
+        return likeablePeople;
     }
 }
