@@ -66,8 +66,12 @@ public class NotProd {
                 LikeablePerson likeablePersonToInstaUserAbcd = likeablePersonService.like(memberUser3, "insta_user_abcd", 2).getData();
 
                 // 내가 받은 호감에서 조회 가능하도록 하기 위해 추가
-                likeablePersonService.like(memberUser2, "wooqq__", 2);
-                likeablePersonService.like(memberUser5, "wooqq__", 3);
+                LikeablePerson likeablePersonToWoo1 = likeablePersonService.like(memberUser2, "wooqq__", 1).getData();
+                Ut.reflection.setFieldValue(likeablePersonToWoo1, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
+                LikeablePerson likeablePersonToWoo2 = likeablePersonService.like(memberUser5, "wooqq__", 2).getData();
+                Ut.reflection.setFieldValue(likeablePersonToWoo2, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
+                LikeablePerson likeablePersonToWoo3 = likeablePersonService.like(memberUser3, "wooqq__", 3).getData();
+                Ut.reflection.setFieldValue(likeablePersonToWoo3, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
             }
         };
     }
