@@ -57,11 +57,6 @@ public class NotProd {
                 instaMemberService.connect(memberUser4, "insta_user4", "M");
                 instaMemberService.connect(memberUser5, "insta_user5", "W");
 
-                // 나의 호감 목록 조회를 위해 추가
-                likeablePersonService.like(memberUser2, "wooqq__", 1);
-                likeablePersonService.like(memberUser4, "wooqq__", 2);
-                likeablePersonService.like(memberUser5, "wooqq__", 3);
-
 
                 // 원활한 테스트와 개발을 위해서 자동으로 만들어지는 호감이 삭제, 수정이 가능하도록 쿨타임해제
                 LikeablePerson likeablePersonToInstaUser4 = likeablePersonService.like(memberUser3, "insta_user4", 1).getData();
@@ -69,6 +64,10 @@ public class NotProd {
                 LikeablePerson likeablePersonToInstaUser100 = likeablePersonService.like(memberUser3, "insta_user100", 2).getData();
                 Ut.reflection.setFieldValue(likeablePersonToInstaUser100, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
                 LikeablePerson likeablePersonToInstaUserAbcd = likeablePersonService.like(memberUser3, "insta_user_abcd", 2).getData();
+
+                // 나의 호감 목록 조회를 위해 추가
+                likeablePersonService.like(memberUser2, "wooqq__", 1).getData();
+                likeablePersonService.like(memberUser5, "wooqq__", 3).getData();
             }
         };
     }
