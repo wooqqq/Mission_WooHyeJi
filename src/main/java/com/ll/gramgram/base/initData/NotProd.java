@@ -64,6 +64,10 @@ public class NotProd {
                 Ut.reflection.setFieldValue(likeablePersonToInstaUser100, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
 
                 LikeablePerson likeablePersonToInstaUserAbcd = likeablePersonService.like(memberUser3, "insta_user_abcd", 2).getData();
+
+                // 내가 받은 호감에서 조회 가능하도록 하기 위해 추가
+                likeablePersonService.like(memberUser2, "wooqq__", 2);
+                likeablePersonService.like(memberUser5, "wooqq__", 3);
             }
         };
     }
