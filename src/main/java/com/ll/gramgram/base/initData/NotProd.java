@@ -46,6 +46,9 @@ public class NotProd {
                 Member memberUser3 = memberService.join("user3", "1234").getData();
                 Member memberUser4 = memberService.join("user4", "1234").getData();
                 Member memberUser5 = memberService.join("user5", "1234").getData();
+                Member memberUser11 = memberService.join("user11", "1234").getData();
+                Member memberUser12 = memberService.join("user12", "1234").getData();
+                Member memberUser13 = memberService.join("user13", "1234").getData();
 
                 Member memberUser6ByKakao = memberService.whenSocialLogin("KAKAO", "KAKAO__%s".formatted(kakaoDevUserOAuthId)).getData();
                 Member memberUser7ByGoogle = memberService.whenSocialLogin("GOOGLE", "GOOGLE__%s".formatted(googleDevUserOAuthId)).getData();
@@ -56,11 +59,10 @@ public class NotProd {
                 instaMemberService.connect(memberUser3, "insta_user3", "W");
                 instaMemberService.connect(memberUser4, "insta_user4", "M");
                 instaMemberService.connect(memberUser5, "insta_user5", "W");
+                instaMemberService.connect(memberUser11, "insta_user11", "W");
+                instaMemberService.connect(memberUser12, "insta_user12", "M");
+                instaMemberService.connect(memberUser13, "insta_user13", "W");
 
-                // 나의 호감 목록 조회를 위해 추가
-                likeablePersonService.like(memberUser2, "wooqq__", 1).getData();
-                likeablePersonService.like(memberUser4, "wooqq__", 2).getData();
-                likeablePersonService.like(memberUser5, "wooqq__", 3).getData();
 
                 // 원활한 테스트와 개발을 위해서 자동으로 만들어지는 호감이 삭제, 수정이 가능하도록 쿨타임해제
                 LikeablePerson likeablePersonToInstaUser4 = likeablePersonService.like(memberUser3, "insta_user4", 1).getData();
@@ -69,6 +71,13 @@ public class NotProd {
                 Ut.reflection.setFieldValue(likeablePersonToInstaUser100, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
                 LikeablePerson likeablePersonToInstaUserAbcd = likeablePersonService.like(memberUser3, "insta_user_abcd", 2).getData();
 
+                // 나의 호감 목록 조회를 위해 추가
+                likeablePersonService.like(memberUser2, "wooqq__", 1).getData();
+                likeablePersonService.like(memberUser4, "wooqq__", 2).getData();
+                likeablePersonService.like(memberUser5, "wooqq__", 3).getData();
+                likeablePersonService.like(memberUser11, "wooqq__", 2).getData();
+                likeablePersonService.like(memberUser12, "wooqq__", 3).getData();
+                likeablePersonService.like(memberUser13, "wooqq__", 1).getData();
             }
         };
     }

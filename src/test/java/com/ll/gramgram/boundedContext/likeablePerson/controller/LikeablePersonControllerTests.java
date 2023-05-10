@@ -139,7 +139,7 @@ public class LikeablePersonControllerTests {
     void t014() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(get("/usr/likeablePerson/modify/5"))
+                .perform(get("/usr/likeablePerson/modify/2"))
                 .andDo(print());
 
         // THEN
@@ -170,7 +170,7 @@ public class LikeablePersonControllerTests {
     void t015() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(post("/usr/likeablePerson/modify/5")
+                .perform(post("/usr/likeablePerson/modify/2")
                         .with(csrf()) // CSRF 키 생성
                         .param("attractiveTypeCode", "3")
                 )
@@ -218,7 +218,7 @@ public class LikeablePersonControllerTests {
         // WHEN
         ResultActions resultActions = mvc
                 .perform(
-                        delete("/usr/likeablePerson/4")
+                        delete("/usr/likeablePerson/1")
                                 .with(csrf())
                 )
                 .andDo(print());
@@ -230,7 +230,7 @@ public class LikeablePersonControllerTests {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("/usr/likeablePerson/list**"));
 
-        assertThat(likeablePersonService.findById(4L).isPresent()).isEqualTo(false);
+        assertThat(likeablePersonService.findById(1L).isPresent()).isEqualTo(false);
     }
 
     @Test
@@ -415,7 +415,7 @@ public class LikeablePersonControllerTests {
     void t017() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(post("/usr/likeablePerson/modify/6")
+                .perform(post("/usr/likeablePerson/modify/3")
                         .with(csrf()) // csrf 키 생성
                         .param("attractiveTypeCode", "3")
                 )
@@ -427,6 +427,6 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().methodName("modify"))
                 .andExpect(status().is4xxClientError());
 
-        assertThat(likeablePersonService.findById(6L).get().getAttractiveTypeCode()).isEqualTo(2);
+        assertThat(likeablePersonService.findById(3L).get().getAttractiveTypeCode()).isEqualTo(2);
     }
 }

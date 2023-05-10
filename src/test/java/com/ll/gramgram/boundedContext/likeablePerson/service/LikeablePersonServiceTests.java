@@ -43,7 +43,7 @@ public class LikeablePersonServiceTests {
         FROM likeable_person
         WHERE id = 2;
         */
-        LikeablePerson likeablePersonId2 = likeablePersonService.findById(5L).get();
+        LikeablePerson likeablePersonId2 = likeablePersonService.findById(2L).get();
 
         // 2번 좋아요를 발생시킨(호감을 표시한) 인스타회원을 가져온다.
         // 그 회원의 인스타 아이디는 insta_user3 이다.
@@ -80,7 +80,7 @@ public class LikeablePersonServiceTests {
         FROM likeable_person
         WHERE id = 2;
         */
-        LikeablePerson likeablePersonId2 = likeablePersonService.findById(5L).get();
+        LikeablePerson likeablePersonId2 = likeablePersonService.findById(2L).get();
 
         // 2번 좋아요를 발생시킨(호감을 표시한) 인스타 회원을 가져온다.
         // 그 회원의 인스타 아이디는 insta_user3 이다.
@@ -166,7 +166,7 @@ public class LikeablePersonServiceTests {
         FROM likeable_person l1_0
         WHERE l1_0.from_insta_member_id = 2
         */
-        List<LikeablePerson> likeablePeople = likeablePersonRepository.findByFromInstaMemberId(5L);
+        List<LikeablePerson> likeablePeople = likeablePersonRepository.findByFromInstaMemberId(2L);
 
         // 좋아하는 대상의 아이디가 insta_user100 인 `좋아요`들만 검색
         /*
@@ -185,7 +185,7 @@ public class LikeablePersonServiceTests {
         */
         List<LikeablePerson> likeablePeople2 = likeablePersonRepository.findByToInstaMember_username("insta_user100");
 
-        assertThat(likeablePeople2.get(0).getId()).isEqualTo(5);
+        assertThat(likeablePeople2.get(0).getId()).isEqualTo(2);
 
         // 좋아하는 사람이 2번 인스타 회원이고, 좋아하는 대상의 인스타아이디가 "insta_user100"인 `좋아요`
         /*
@@ -205,7 +205,7 @@ public class LikeablePersonServiceTests {
         */
         LikeablePerson likeablePerson = likeablePersonRepository.findByFromInstaMemberIdAndToInstaMember_username(2L, "insta_user100");
 
-        assertThat(likeablePerson.getId()).isEqualTo(5);
+        assertThat(likeablePerson.getId()).isEqualTo(2);
     }
 
     @Test
@@ -213,7 +213,7 @@ public class LikeablePersonServiceTests {
     void t005() throws Exception {
         LikeablePerson likeablePerson = likeablePersonRepository.findQslByFromInstaMemberIdAndToInstaMember_username(2L, "insta_user4").orElse(null);
 
-        assertThat(likeablePerson.getId()).isEqualTo(4L);
+        assertThat(likeablePerson.getId()).isEqualTo(1L);
     }
 
     @Test
