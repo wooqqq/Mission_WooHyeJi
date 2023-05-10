@@ -255,13 +255,13 @@ public class LikeablePersonService {
                 break;
             case 5: // 성별순
                 likeablePersonStream = likeablePersonStream
-                        .sorted((e1, e2) -> e1.getFromInstaMember().getGender().compareTo(e1.getFromInstaMember().getGender()) * -1)
-                        .sorted((e1, e2) -> e2.getCreateDate().compareTo(e1.getCreateDate()));
+                        .sorted(Comparator.comparing((LikeablePerson e) -> e.getFromInstaMember().getGender(), Comparator.reverseOrder())
+                                .thenComparing(LikeablePerson::getCreateDate, Comparator.reverseOrder()));
                 break;
             case 6: // 호감사유순
                 likeablePersonStream = likeablePersonStream
                         .sorted(Comparator.comparing(LikeablePerson::getAttractiveTypeCode)
-                                .thenComparing((e1, e2) -> e2.getCreateDate().compareTo(e1.getCreateDate())));
+                                .thenComparing(LikeablePerson::getCreateDate, Comparator.reverseOrder()));
                 break;
 
         }

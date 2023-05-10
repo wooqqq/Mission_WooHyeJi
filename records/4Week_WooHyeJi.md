@@ -57,7 +57,8 @@
   - https://localhost 에서 호감사유에 따라 필터링 기능이 구현된 것을 확인함
 
 4. **내가 받은 호감리스트에서 정렬 기능**
-  - 
+  - LikeablePersonService.java 에서 Stream 사용하여 정렬
+  - 성별 별로 정렬을 해보았으나, 제대로 구현되지 않음
 
 
 
