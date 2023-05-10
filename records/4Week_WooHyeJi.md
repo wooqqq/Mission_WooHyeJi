@@ -54,14 +54,25 @@
 3. **내가 받은 호감리스트에서 호감사유 필터링 기능 구현**
   - 성별 필터링 기능을 구현한 `listByGender`를 `listByGroup`으로 변경 후 호감사유 필터링 기능 추가
   - LikeablePersonController.java 에도 `attractiveTypeCode`와 `sortCode` 추가
+  - https://localhost 에서 호감사유에 따라 필터링 기능이 구현된 것을 확인함
+
+4. **내가 받은 호감리스트에서 정렬 기능**
+  - 
+
+
 
 **[특이사항]**
 - https://localhost 를 통해 성별 필터링 기능이 구현된 것을 확인했으나, 도메인(https://www.lionlike.site)으로 접속했을 때는 NotProd.java에 추가한 내용이 뜨지 않음
+    
+    => 멘토님께 여쭤본 결과, NotProd.java 는 test와 dev 환경에서 사용. 배포한 환경은 prod 환경으로 실행하는 중이기 때문에 NotProd.java에 추가한 정보가 뜨지 않는것이 맞았음
+
 - 도메인에서는 프로그램이 보이지만, 인텔리제이 실행 후 https://localhost 로 확인하면 알 수 없는 에러가 종종 뜸
   (이전에도 이러한 에러가 보였던 적이 있지만 시간이 좀 지나고 정상적으로 뜸)
   - This application has no explicit mapping for /error, so you are seeing this as a fallback.
   - There was an unexpected error (type=Internal Server Error, status=500).
     An error happened during template parsing (template: "class path resource [templates/usr/member/me.html]")
+    
+  => 크롬에서 로그인 했던 세션이 남아있어서 에러가 났었음. 쿠키 삭제하니 바로 정상 작동
 
 
 **[Refactoring]**
