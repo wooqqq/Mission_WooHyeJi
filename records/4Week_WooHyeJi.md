@@ -56,7 +56,12 @@
   - LikeablePersonController.java 에도 `attractiveTypeCode`와 `sortCode` 추가
 
 **[특이사항]**
-
+- https://localhost 를 통해 성별 필터링 기능이 구현된 것을 확인했으나, 도메인(https://www.lionlike.site)으로 접속했을 때는 NotProd.java에 추가한 내용이 뜨지 않음
+- 도메인에서는 프로그램이 보이지만, 인텔리제이 실행 후 https://localhost 로 확인하면 알 수 없는 에러가 종종 뜸
+  (이전에도 이러한 에러가 보였던 적이 있지만 시간이 좀 지나고 정상적으로 뜸)
+  - This application has no explicit mapping for /error, so you are seeing this as a fallback.
+  - There was an unexpected error (type=Internal Server Error, status=500).
+    An error happened during template parsing (template: "class path resource [templates/usr/member/me.html]")
 
 
 **[Refactoring]**
