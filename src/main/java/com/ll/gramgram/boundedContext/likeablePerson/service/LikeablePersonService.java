@@ -231,7 +231,7 @@ public class LikeablePersonService {
                     .collect(Collectors.toList());
         }
 
-        if (attractiveTypeCode != null && attractiveTypeCode.isEmpty()) {
+        if (attractiveTypeCode != null && !attractiveTypeCode.isEmpty()) {
             likeablePeople = likeablePeople.stream()
                     .filter(e -> e.getAttractiveTypeCode() == Integer.parseInt(attractiveTypeCode))
                     .collect(Collectors.toList());
