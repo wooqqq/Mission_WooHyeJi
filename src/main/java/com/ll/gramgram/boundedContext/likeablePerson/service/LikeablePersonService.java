@@ -15,9 +15,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -218,5 +218,54 @@ public class LikeablePersonService {
 
 
         return RsData.of("S-1", "호감사유변경이 가능합니다.");
+    }
+
+    public List<LikeablePerson> listByGroup(InstaMember instaMember, String gender, int attractiveTypeCode, int sortCode) {
+        List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
+        Stream<LikeablePerson> likeablePersonStream = instaMember.getToLikeablePeople().stream();
+
+        if (gender != null && !gender.isEmpty()) {
+            likeablePeople = likeablePeople.stream()
+                    .filter(e -> e.getFromInstaMember().getGender().equals(gender))
+                    .collect(Collectors.toList());
+        }
+
+        if (attractiveTypeCode != 0) {
+            likeablePeople = likeablePeople.stream()
+                    .filter(e -> e.getAttractiveTypeCode() == attractiveTypeCode)
+                    .collect(Collectors.toList());
+        }
+
+        switch (sortCode) {
+            case 1: // 최신순(기본)
+                likeablePersonStream = likeablePersonStream
+                        .sorted((e1, e2) -> e2.getCreateDate().compareTo(e1.getCreateDate()));
+                break;
+            case 2: // 날짜순
+                likeablePersonStream = likeablePersonStream
+                        .sorted((e1, e2) -> e2.getCreateDate().compareTo(e1.getCreateDate()) * -1);
+                break;
+            case 3: // 인기 많은 순
+                likeablePersonStream = likeablePersonStream
+                        .sorted((e1, e2) -> e2.getFromInstaMember().getToLikeablePeople().size() - e1.getFromInstaMember().getToLikeablePeople().size());
+                break;
+            case 4: // 인기 적은 순
+                likeablePersonStream = likeablePersonStream
+                        .sorted((e1, e2) -> (e2.getFromInstaMember().getToLikeablePeople().size() - e1.getFromInstaMember().getToLikeablePeople().size()) * -1);
+                break;
+            case 5: // 성별순
+                likeablePersonStream = likeablePersonStream
+                        .sorted(Comparator.comparing((LikeablePerson e) -> e.getFromInstaMember().getGender(), Comparator.reverseOrder())
+                                .thenComparing(LikeablePerson::getCreateDate, Comparator.reverseOrder()));
+                break;
+            case 6: // 호감사유순
+                likeablePersonStream = likeablePersonStream
+                        .sorted(Comparator.comparing(LikeablePerson::getAttractiveTypeCode)
+                                .thenComparing(LikeablePerson::getCreateDate, Comparator.reverseOrder()));
+                break;
+
+        }
+
+        return likeablePeople;
     }
 }
